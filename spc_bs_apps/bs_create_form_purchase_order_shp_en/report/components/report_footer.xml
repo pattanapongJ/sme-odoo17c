@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="report_footer">
+        <div class="row border-top border-bottom border-dark pt-2 pb-2" style="font-family: 'Kanit-Light'; font-size: 13.64px; page-break-inside: avoid;">
+            <div class="col-7">
+                <div class="row">
+                    <div class="col-10 mb-0 p-3 text-center" style="background-color: #d0d0d0;">
+                        <t t-set="currency" t-value="o.currency_id"/>
+                        <t t-esc="currency.amount_to_text(o.amount_total)"/>
+                    </div>
+                    <div class="col-2 mb-0">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-9 mb-0 p-1 pl-3 text-left font-weight-bold">
+                        <span>Remark : </span>
+                    </div>
+                    <div class="col-3 mb-0">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-9 mb-0 p-0 pl-4 text-left">
+                        <span t-field="o.notes"/>
+                    </div>
+                    <div class="col-3 mb-0">
+                    </div>
+                </div>
+            </div>
+            <div class="col-5 pt-1 pb-1" style="background-color: #d0d0d0;">
+                <div class="row">
+                    <div class="col-6 pr-0 mr-0 mb-0 text-left">
+                        <b>Untaxed Amount</b>
+                    </div>
+                    <div class="col-6 pl-0 ml-0 mb-0 text-right">
+                        <span t-esc="o.total_amt_wo_global_disc" t-options='{"widget": "float", "precision": 2}'/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 pr-0 mr-0 mb-0 text-left">
+                        <b>Discount Amount</b>
+                    </div>
+                    <div class="col-6 pl-0 ml-0 mb-0 text-right">
+                        <span t-esc="o.global_discount" t-options='{"widget": "float", "precision": 2}'/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 pr-0 mr-0 mb-0 text-left">
+                        <b>Amount After Discount </b>
+                    </div>
+                    <div class="col-6 pl-0 ml-0 mb-0 text-right">
+                        <span t-esc="o.amount_untaxed" t-options='{"widget": "float", "precision": 2}'/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 pr-0 mr-0 mb-0 text-left">
+                        <b>Vat</b>
+                    </div>
+                    <div class="col-6 pl-0 ml-0 mb-0 text-right">
+                        <span t-esc="o.amount_tax" t-options='{"widget": "float", "precision": 2}'/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 pr-0 mr-0 mb-0 text-left">
+                        <b>Grand Total</b>
+                    </div>
+                    <div class="col-6 pl-0 ml-0 mb-0 text-right">
+                        <span t-esc="o.amount_total" t-options='{"widget": "float", "precision": 2}'/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Signature Section -->
+        <div class="last-page">
+            <div class="row pt-1 pb-2 mt-3" style="font-family: 'Kanit-Light'; font-size: 13.64px;">
+                <t t-set="show_signature" t-value="env['ir.actions.report'].search([('report_name', '=', xmlid)], limit=1).show_signature"/>
+                <t t-set="report_signature" t-value="env['ir.actions.report'].search([('report_name', '=', xmlid)], limit=1).signature_image"/>
+                <t t-set="tier_validation" t-value="env['ir.actions.report'].search([('report_name', '=', xmlid)], limit=1).tier_validation"/>
+                <div class="col-4 text-center" style="padding-left: 30px; padding-right: 30px;">
+                    <div class="border-bottom border-dark m-0 p-0" style="height: 75px;">
+                        <t t-if="show_signature">
+                            <t t-if="o.create_uid.employee_id.signature">
+                                <img t-att-src="image_data_uri(o.create_uid.employee_id.signature)" alt="Signature" style="max-width: 200px; max-height: 65px;"/>
+                            </t>
+                            <t t-else="">
+                                <div style="padding-top: 40px;">
+                                    <span>
+                                        <t t-esc="o.create_uid.name"/>
+                                    </span>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                    <span class="pt-1">Create by</span>
+                    <br/>
+                    <div style="padding-top: 15px;">
+                        <t t-if="show_signature and report_signature">
+                            <span>
+                                <t t-esc="o.create_date.strftime('%d/%m/%Y')" />
+                            </span>
+                        </t>
+                        <t t-else="">
+                            <span>............../............../..............</span>
+                        </t>
+                    </div>
+                </div>
+                <div class="col-4 text-center" style="padding-left: 30px; padding-right: 30px;">
+                    <div class="border-bottom border-dark m-0 p-0" style="height: 75px;">
+                         <t t-if="tier_validation">
+                            <t t-if="len(o.review_ids) > 0">
+                                <t t-set="last_review" t-value="o.review_ids[-1]"/>
+                                <t t-set="reviewer_employee" t-value="env['hr.employee'].search([('user_id', '=', last_review.done_by.id)], limit=1)"/>
+                            </t>
+                            <t t-if="tier_validation or (show_signature and tier_validation)">
+                                <t t-if="reviewer_employee">
+                                    <img t-att-src="image_data_uri(reviewer_employee.signature)" alt="Reviewer Signature" style="max-width:200px; max-height:65px;"/>
+                                </t>
+                            </t>
+                            <t t-elif="show_signature and not tier_validation and report_signature">
+                                <img t-att-src="image_data_uri(report_signature)" alt="Approval Signature" style="max-width:200px; max-height:65px;"/>
+                            </t>
+                        </t>
+                        <t t-elif="show_signature and report_signature and not tier_validation">
+                            <img t-att-src="image_data_uri(report_signature)" alt="Approval Signature" style="max-width:200px; max-height:65px;"/>
+                        </t>
+                    </div>
+                    <span class="pt-1">Approved by</span>
+                    <br/>
+                    <div style="padding-top:15px">
+                        <t t-if="tier_validation">
+                            <t t-if="len(o.review_ids) &gt; 0">
+                                <t t-set="len_num" t-value="len(o.review_ids) - 1"/>
+                                <t t-set="review_date" t-value="o.review_ids[len_num].reviewed_date"/>
+                            </t>
+                            <t t-if="len(o.review_ids) == 0">
+                                <t t-set="review_date" t-value="o.review_ids.reviewed_date"/>
+                            </t>
+                            <t t-if="review_date">
+                                <span>
+                                    <t t-esc="review_date.strftime('%d/%m/%Y')"/>
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span>............../............../..............</span>
+                            </t>
+                        </t>
+                        <t t-elif="show_signature and not tier_validation">
+                            <t t-if="o.create_date">
+                                <span>
+                                    <t t-esc="o.create_date.strftime('%d/%m/%Y')" />
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span>............../............../..............</span>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <span>............../............../..............</span>
+                        </t>
+                    </div>
+                </div>
+                <div class="col-4 text-center" style="padding-left: 30px; padding-right: 30px;">
+                    <div class="border-bottom border-dark m-0 p-0" style="height: 75px;"></div>
+                    <span class="pt-1">Supplier</span>
+                    <br/>
+                    <div style="padding-top:15px">
+                        <span>............../............../..............</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
