@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="report_partner_info">
+        <div class="row border-top border-dark border-bottom border-dark pt-2 pb-2" style="font-family: 'Kanit-Light'; font-size: 13.64px">
+                <div class="col-7 pt-1 pd-1">
+                    <div class="row">
+                        <div class="col-4 mb-0 p-0 text-left font-weight-bold">
+                            <span>Vendor : </span>
+                        </div>
+                        <div class="col-8 p-0 mb-0 text-left">
+                            <span>
+                                <t t-if="o.partner_id.ref">
+                                    <span t-esc="o.partner_id.ref" />
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.partner_id.ref">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-0 p-0 text-left font-weight-bold">
+                            <span>Vendor Name : </span>
+                        </div>
+                        <div class="col-8 p-0 mb-0 text-left">
+                            <span>
+                                <t t-if="o.partner_id.name">
+                                    <span t-esc="o.partner_id.name" />
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.partner_id.name">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                            <t t-if="o.partner_id.branch">
+                                <span>(</span>
+                                <span t-field="o.partner_id.branch" />
+                                <span>)</span>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-0 p-0 text-left font-weight-bold">
+                            <span>Tax ID : </span>
+                        </div>
+                        <div class="col-8 p-0 mb-0 text-left">
+                            <span>
+                                <t t-if="o.partner_id.vat">
+                                    <span t-esc="o.partner_id.vat" />
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.partner_id.vat">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-0 p-0 text-left font-weight-bold">
+                            <span>Address : </span>
+                        </div>
+                        <div class="col-8 p-0 mb-0 text-left">
+                            <t t-if="o.partner_id.street">
+                                <span t-field="o.partner_id.street" style="margin-right: 5px;" />
+                            </t>
+                            <t t-if="o.partner_id.street2">
+                                <span t-field="o.partner_id.street2" style="margin-right: 5px;" />
+                            </t>
+                             <t t-if="o.partner_id.city">
+                                 <span t-esc="o.partner_id.city" style="margin-right: 5px;" />
+                             </t>
+                            <t t-if="o.partner_id.state_id">
+                                <span t-esc="o.partner_id.state_id.name" style="margin-right: 5px;" />
+                            </t>
+                            <t t-if="o.partner_id.country_id">
+                                <span t-field="o.partner_id.country_id.name" />
+                            </t>
+                            <t t-if="o.partner_id.zip">
+                                <span t-esc="o.partner_id.zip" style="margin-right: 5px;" />
+                            </t>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-0 p-0 text-left font-weight-bold">
+                            <span>Reference : </span>
+                        </div>
+                        <div class="col-8 p-0 mb-0 text-left">
+                            <span>
+                                <t t-if="o.partner_ref">
+                                    <span t-field="o.partner_ref" />
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.partner_ref">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mb-0 p-0 text-left font-weight-bold">
+                            <span>Ship To : </span>
+                        </div>
+                        <div class="col-8 p-0 mb-0 text-left">
+                            <span>
+                                <t t-if="o.picking_type_id">
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.street"/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.street2"/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.city"/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.state_id"/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.zip"/>
+                                    <span t-field="o.picking_type_id.warehouse_id.partner_id.country_id"/> 
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.picking_type_id">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                            <t t-if="len(o.picking_type_id.warehouse_id.partner_id.street) &lt; 20">
+                                <div class="pb-2"></div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-5 pt-1 pb-1 mr-1 ml-5">
+                    <div class="row pt-1" style="background-color: #d0d0d0;">
+                        <div class="col-6 p-0 mb-0 pl-2 text-left">
+                            <b>Purchase Order No :  </b>
+                        </div>
+                        <div class="col-6 p-0 mb-0 text-left" style="margin-left:-20px">
+                            <span>
+                                <t t-if="o.name">
+                                    <span t-field="o.name"/>
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.name">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: #d0d0d0;">
+                        <div class="col-6 p-0 mb-0 pl-2 text-left">
+                            <b>Purchase Order Date: </b>
+                        </div>
+                        <div class="col-6 p-0 mb-0 text-left" style="margin-left:-20px">
+                            <span>
+                                <t t-if="o.date_approve">
+                                    <span t-field="o.date_approve" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.date_approve">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: #d0d0d0;">
+                        <div class="col-6 p-0 mb-0 pl-2 text-left">
+                            <b>Incoterm : </b>
+                        </div>
+                        <div class="col-5 p-0 mb-0 text-left" style="margin-left:-20px">
+                            <span>
+                                <t t-if="o.incoterm_id">
+                                    <span t-field="o.incoterm_id.name"/>
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.incoterm_id">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: #d0d0d0;">
+                        <div class="col-6 p-0 mb-0 pl-2 text-left">
+                            <b>Due date : </b>
+                        </div>
+                        <div class="col-6 p-0 mb-0 text-left" style="margin-left:-20px">
+                            <span>
+                                <t t-if="o.date_planned">
+                                    <span t-field="o.date_planned" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.date_planned">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: #d0d0d0;">
+                        <div class="col-6 p-0 mb-0 pl-2 text-left">
+                            <b>Payment Terms : </b>
+                        </div>
+                        <div class="col-6 p-0 mb-0 text-left" style="margin-left:-20px">
+                            <span>
+                                <t t-if="o.payment_term_id">
+                                    <span t-field="o.payment_term_id"/>
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.payment_term_id">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row pb-1" style="background-color: #d0d0d0;">
+                        <div class="col-6 p-0 mb-0 pl-2 text-left">
+                            <b>Warehouse : </b>
+                        </div>
+                        <div class="col-6 p-0 mb-0 text-left" style="margin-left:-20px">
+                            <span>
+                                <t t-if="o.picking_type_id.warehouse_id">
+                                    <span t-field="o.picking_type_id.warehouse_id"/>
+                                </t>
+                            </span>
+                            <span>
+                                <t t-if="not o.picking_type_id.warehouse_id">
+                                    <span> - </span>
+                                </t>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </template>
+</odoo>

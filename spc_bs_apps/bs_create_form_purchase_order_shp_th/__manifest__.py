@@ -1,0 +1,21 @@
+{
+    'name': 'BS Create Form Purchase Order Shp TH',
+    'version': '17.0.0.1',
+    'author': 'Basic-Solution Co., Ltd.',
+    'website': 'https://www.basic-solution.com/',
+    "license": "AGPL-3",
+    "category": "purchase",
+    "depends": ["purchase","bs_multi_discount_purchase",'bs_show_signature' , 'l10n_th_partner', 'bs_company_address_ext'],
+    'data': [
+        'report/components/report_template_company_info.xml',
+        'report/components/report_header_partner_info.xml',
+        'report/components/report_main_content.xml',
+        'report/components/report_footer.xml',
+        'report/bs_create_form_purchase_order_shp_th_template.xml',
+        'report/report_bs_create_form_purchase_order_shp_th_page.xml',
+        'report/request_report.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}

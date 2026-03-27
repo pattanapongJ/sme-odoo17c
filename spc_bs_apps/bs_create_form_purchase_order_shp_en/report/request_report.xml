@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paper_format_bs_create_form_purchase_order_shp_en_report" model="report.paperformat">
+            <field name="name">purchase request en (shp)</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">77</field>
+            <field name="margin_bottom">75</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_spacing">75</field>
+            <field name="dpi">90</field>
+        </record>
+        
+        <record id="action_report_bs_create_form_purchase_order_shp_en_report" model="ir.actions.report">
+            <field name="name">Purchase Order (EN) (shp)</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bs_create_form_purchase_order_shp_en.report_bs_create_form_purchase_order_shp_en</field>
+            <field name="report_file">bs_create_form_purchase_order_shp_en.report_bs_create_form_purchase_order_shp_en</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="print_report_name">'Purchase Order (EN) (shp)'</field>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paper_format_bs_create_form_purchase_order_shp_en_report"/>
+        </record>
+    </data>
+</odoo>
