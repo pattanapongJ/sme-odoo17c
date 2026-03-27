@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_rma_main_form_inherit_tracking" model="ir.ui.view">
+        <field name="name">rma.main.form.inherit.tracking</field>
+        <field name="model">rma.main</field>
+        <field name="inherit_id" ref="bi_rma.view_rma_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[1]//div[field[@name='del_country_id']]" position="after">
+                <field name="tracking_number"/>
+                <field name="tracking_number_returns"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

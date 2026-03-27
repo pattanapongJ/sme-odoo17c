@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="report_footer">
+        <div class="row p-0 m-0" style="font-family: 'Kanit-Light'; font-size: 13.64px">
+            <div class="col-12 border-top border-bottom border-dark pt-2 pb-2">
+                <span style="font-weight: bold;">Remark: </span>
+                <span t-field="o.rma_note"/>
+            </div>
+        </div>
+        <t t-set="show_signature"
+            t-value="env['ir.actions.report'].search([('report_name', '=', xmlid)], limit=1).show_signature" />
+        <t t-set="report_signature"
+            t-value="env['ir.actions.report'].search([('report_name', '=', xmlid)], limit=1).signature_image" />
+        <t t-set="tier_validation"
+            t-value="env['ir.actions.report'].search([('report_name', '=', xmlid)], limit=1).tier_validation" />
+        <div class="row p-0 m-0" style="font-family: 'Kanit-Light'; font-size: 13.64px">
+            <div class="col-1"></div>
+            <div class="col-4 text-center" style="padding: 0 36px 0 36px;">
+                <div class="border-bottom border-dark m-0 p-0 " style="height: 80px;">
+                    <t t-if="show_signature">
+                        <t t-set="employee"
+                            t-value="env['hr.employee'].sudo().search([('user_id', '=', o.create_uid.id)], limit=1)" />
+                        <t t-if="employee and employee.signature">
+                            <img t-att-src="image_data_uri(employee.signature)"
+                                alt="Reviewer Signature"
+                                style=" max-width: 200px; max-height: 65px; margin-top: 10px;" />
+                        </t>
+                        <t t-else="">
+                            <div style="padding-top: 40px;">
+                                <span>
+                                    <t t-esc="o.create_uid.name" />
+                                </span>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+                <div class="pt-1">
+                    <span>Create by</span>
+                </div>
+                <div style="padding-top: 15px;">
+                    <t t-if="show_signature and report_signature">
+                        <span>
+                            <t t-esc="o.create_date.strftime('%d/%m/%Y')" />
+                        </span>
+                    </t>
+                    <t t-else="">
+                        <span>............../............../..............</span>
+                    </t>
+                </div>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-4 text-center" style="padding: 0 36px 0 36px;">
+                <div class="border-bottom border-dark m-0 p-0" style="height: 80px;">
+                    <t t-if="tier_validation">
+                        <t t-if="len(o.review_ids) > 0">
+                            <t t-set="last_review" t-value="o.review_ids[-1]" />
+                            <t t-set="reviewer_employee"
+                                t-value="env['hr.employee'].search([('user_id', '=', last_review.done_by.id)], limit=1)" />
+                        </t>
+                        <t t-if="tier_validation or (show_signature and tier_validation)">
+                            <t t-if="reviewer_employee">
+                                <img t-att-src="image_data_uri(reviewer_employee.signature)"
+                                    alt="Reviewer Signature"
+                                    style="max-width:200px; max-height:65px; margin-top: 10px;" />
+                            </t>
+                        </t>
+                        <t t-elif="show_signature and not tier_validation and report_signature">
+                            <img t-att-src="image_data_uri(report_signature)"
+                                alt="Approval Signature"
+                                style="max-width:200px; max-height:65px; margin-top: 10px;" />
+                        </t>
+                    </t>
+                    <t t-elif="show_signature and report_signature and not tier_validation">
+                        <img t-att-src="image_data_uri(report_signature)" alt="Approval Signature"
+                            style="max-width:200px; max-height:65px; margin-top: 10px;" />
+                    </t>
+                </div>
+                <div class="pt-1" style="padding-top:30px">
+                    <span>Approved by</span>
+                    <br />
+                    <div style="padding-top:15px">
+                        <t t-if="tier_validation">
+                            <t t-if="len(o.review_ids) &gt; 0">
+                                <t t-set="len_num" t-value="len(o.review_ids) - 1" />
+                                <t t-set="review_date" t-value="o.review_ids[len_num].reviewed_date" />
+                            </t>
+                            <t t-if="len(o.review_ids) == 0">
+                                <t t-set="review_date" t-value="o.review_ids.reviewed_date" />
+                            </t>
+                            <t t-if="review_date">
+                                <span>
+                                    <t t-esc="review_date.strftime('%d/%m/%Y')" />
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span>............../............../..............</span>
+                            </t>
+                        </t>
+                        <t t-elif="show_signature and not tier_validation">
+                            <t t-if="o.create_date">
+                                <span>
+                                    <t t-esc="o.create_date.strftime('%d/%m/%Y')" />
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span>............../............../..............</span>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <span>............../............../..............</span>
+                        </t>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </template>
+</odoo>
