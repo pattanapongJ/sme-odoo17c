@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paper_format_bs_rma_report_sale" model="report.paperformat">
+            <field name="name">Sale RMA Report</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">78</field>
+            <field name="margin_bottom">70</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_spacing">77</field>
+            <field name="dpi">90</field>
+        </record>
+        <record id="rma_report" model="ir.actions.report">
+            <field name="name">Sale RMA Report Form (shp)</field>
+            <field name="model">rma.main</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bs_rma_report_sale_shp.report_page</field>
+            <field name="report_file">bs_rma_report_sale_shp.report_page</field>
+            <field name="binding_model_id" ref="bi_rma.model_rma_main" />
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paper_format_bs_rma_report_sale" />
+        </record>
+    </data>
+</odoo>

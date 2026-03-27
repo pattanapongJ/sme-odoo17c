@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="report_main_content">
+        <div class="row" style="font-family: 'Kanit-Light'; font-size: 13.67px; width:100%;">
+            <div class="col-12">
+                <table class="table table-borderless">
+                    <thead style="background-color: #d9d9d9">
+                        <tr>
+                            <th class="text-center" scope="col"
+                                style="display: table-cell;
+                                            text-align: center;
+                                            vertical-align: middle; width: 35%;">
+                                <span>Product</span>
+                            </th>
+                            <th class="text-center" scope="col"
+                                style="display: table-cell;
+                                            text-align: center;
+                                            vertical-align: middle; width: 17.5%;">
+                                <span>Delivered Quantity</span>
+                            </th>
+                            <th class="text-center" scope="col"
+                                style="display: table-cell;
+                                            text-align: center;
+                                            vertical-align: middle; width: 17.5%;">
+                                <span>Return Quantity</span>
+                            </th>
+                            <th class="text-center" scope="col"
+                                style="display: table-cell;
+                                            text-align: center;
+                                            vertical-align: middle; width: 30%;">
+                                <span>Reason</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="o.rma_line_ids">
+                            <t t-foreach="o.rma_line_ids" t-as="line">
+                                <tr>
+                                    <td class="text-start">
+                                        <span t-field="line.product_id" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.delivery_qty"
+                                            t-options='{"widget": "float", "precision": 2}' />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.return_qty"
+                                            t-options='{"widget": "float", "precision": 2}' />
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-if="line.rma_reason_id">
+                                            <span t-field="line.rma_reason_id.rma_reason" />
+                                        </t>
+                                        <t t-elif="line.reject_reason_id">
+                                            <span t-field="line.reject_reason_id.name" />
+                                        </t>
+                                        <t t-else="">
+                                            <span> - </span>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+</odoo>
